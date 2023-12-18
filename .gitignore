@@ -1,5 +1,7 @@
 .idea/
 
+output/
+
 ### Processing template
 .DS_Store
 applet
