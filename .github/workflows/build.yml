@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variant: ["linux-amd64", "windows-amd64"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Processing
+        id: setup-processing
+        uses: pr1metine/setup-processing@v2.1.0
+        
+      - name: Build
+        run: processing-java --sketch=./MikuScreensaver --output=./output --variant=${{ matrix.variant }} --force --export
+        
+      - name: Upload ${{ matrix.variant }} Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.variant }}
+          path: output
