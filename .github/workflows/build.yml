@@ -10,6 +10,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         variant: ["linux-amd64", "windows-amd64"]
     steps:
@@ -17,11 +18,10 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Setup Processing
-        id: setup-processing
         uses: pr1metine/setup-processing@v2.1.0
         
       - name: Build
-        run: processing-java --sketch=./MikuScreensaver --output=./output --variant=${{ matrix.variant }} --force --export
+        run: processing-java --sketch=../MikuScreensaver --output=./output --variant=${{ matrix.variant }} --force --export
         
       - name: Upload ${{ matrix.variant }} Build
         uses: actions/upload-artifact@v4
